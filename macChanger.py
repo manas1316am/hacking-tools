@@ -22,14 +22,12 @@ def get_arguments():
 
 def change_mac(interface, new_mac):
     print("[+] Changing MAC address for " + interface + " to " + new_mac)
-    subprocess.call("ip link set dev " + interface + " down", shell=True)
-    subprocess.call("ip link set dev " + interface +
-                    " address " + new_mac, shell=True)
-    subprocess.call("ip link set dev " + interface + " up", shell=True)
+    subprocess.call(["ifconfig", interface, "down"])
+    subprocess.call(["ifconfig", interface, "hw", "ether", new_mac])
+    subprocess.call(["ifconfig" + interface + " up"])
 
 
 options = get_arguments()
-change_mac(options.interface, options.new_mac)
-
-# enp3s0
-# 00:11:22:33:44:77
+# change_mac(options.interface, options.new_mac)
+ifconfig_result = subprocess.check_output(["ifconfig", options.interface])
+print(ifconfig_result)
