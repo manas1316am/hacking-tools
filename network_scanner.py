@@ -21,8 +21,12 @@ def scan(ip):
 
     # sending the packets
     # 'srp' package helps us to send and recieve packets for custom Ether functions
-    answered, unanswered = scapy.srp(arp_request_broadcast, timeout=1)
-    print(unanswered.summary())
+    answered_list = scapy.srp(arp_request_broadcast, timeout=1)[0]
+    # Iterating over the answered_list
+    for element in answered_list:
+        print(element[1].psrc)
+        print(element[1].hwsrc)
+        print("----------------------------------------------")
 
 
 scan("192.168.0.1/24")
